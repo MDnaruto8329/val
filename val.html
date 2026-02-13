@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive;
+            background: linear-gradient(135deg, #ffc0cb 0%, #ffb6c1 50%, #ff69b4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Floating hearts background */
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            animation: float 6s infinite;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-30px) rotate(10deg);
+            }
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #ff1493;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+        }
+
+        .cat-container {
+            margin: 30px 0;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .cat-container:hover {
+            transform: scale(1.1) !important;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .cat {
+            font-size: 80px;
+            display: inline-block;
+        }
+
+        .envelope {
+            font-size: 60px;
+            margin: 20px 0;
+            display: inline-block;
+            animation: shake 3s infinite;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .envelope:hover {
+            transform: scale(1.2);
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(-5deg);
+            }
+
+            75% {
+                transform: rotate(5deg);
+            }
+        }
+
+        .question {
+            font-size: 1.5em;
+            color: #ff1493;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+            position: relative;
+            min-height: 80px;
+        }
+
+        button {
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 1.2em;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #ddd, #bbb);
+            color: #666;
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        #noBtn.warning {
+            background: linear-gradient(135deg, #ff6b6b, #ff0000);
+            color: white;
+            animation: shake-warning 0.5s;
+        }
+
+        @keyframes shake-warning {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            75% {
+                transform: translateX(10px);
+            }
+        }
+
+        .warning-text {
+            color: #ff0000;
+            font-size: 0.9em;
+            margin-top: 10px;
+            font-weight: bold;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .success {
+            display: none;
+            animation: fadeIn 1s;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success h2 {
+            color: #ff1493;
+            font-size: 2em;
+            margin: 20px 0;
+        }
+
+        .celebration {
+            font-size: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 7 Days Section */
+        .days-section {
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .day-card {
+            background: linear-gradient(135deg, #ffe6f0, #ffd6e8);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 15px;
+            border-left: 5px solid #ff1493;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .day-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 6px 15px rgba(255, 20, 147, 0.3);
+        }
+
+        .day-title {
+            color: #ff1493;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .day-message {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+
+        /* Infinite Love Timer */
+        .timer-section {
+            background: linear-gradient(135deg, #fff0f5, #ffe6f0);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            border: 3px dashed #ff69b4;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timer-section::before {
+            content: '💕';
+            position: absolute;
+            font-size: 100px;
+            opacity: 0.1;
+            top: -20px;
+            right: -20px;
+            animation: spin 10s linear infinite;
+        }
+
+        .timer-title {
+            color: #ff1493;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .timer-display {
+            font-size: 2.5em;
+            color: #ff1493;
+            font-weight: bold;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+        }
+
+        .timer-text {
+            color: #ff69b4;
+            font-size: 1.2em;
+            font-style: italic;
+            margin: 10px 0;
+        }
+
+        .reset-animation {
+            animation: resetPulse 0.5s;
+        }
+
+        @keyframes resetPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+                color: #ff0080;
+            }
+        }
+
+        .thought-bubble {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 20px;
+            margin: 15px 0;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.5s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .thought-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 30px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
+            transition: all 0.3s;
+        }
+
+        .next-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
+        }
+
+        @keyframes fall {
+            to {
+                top: 100vh;
+                transform: rotate(360deg);
+            }
+        }
+
+        .cat-speaks {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 15px;
+            display: inline-block;
+            margin: 10px 0;
+            font-size: 0.9em;
+            color: #666;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                width: 95%;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .cat {
+                font-size: 60px;
+            }
+
+            .envelope {
+                font-size: 50px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            button {
+                width: 100%;
+                padding: 12px;
+            }
+
+            /* Adjust No button for mobile to ensure it can still move effectively */
+            #noBtn {
+                position: relative;
+                /* Reset for flex layout initially */
+            }
+        }
+
+        .meme-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            pointer-events: none;
+            display: none;
+            text-align: center;
+        }
+
+        .meme-text {
+            font-size: 2em;
+            color: white;
+            text-shadow: 2px 2px 4px #000;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 10px;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .sticker {
+            font-size: 100px;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="mainContent">
+        <h1>💕 Neha, Will You Be My Valentine? 💕</h1>
+
+        <div class="cat-container" onclick="catSpeak()">
+            <div class="cat" id="catEmoji">🐱</div>
+            <div class="cat-speaks" id="catMessage" style="display: none;">Click me! I have feelings too! 😸</div>
+        </div>
+
+        <div class="envelope" onclick="envelopeShake()">💌</div>
+
+        <p class="question">I have something special to ask you...</p>
+
+        <div class="buttons">
+            <button id="yesBtn">YES! 💖</button>
+            <button id="noBtn">No</button>
+        </div>
+
+        <p class="warning-text" id="warningText" style="display: none;"></p>
+
+        <div class="meme-container" id="memeContainer"></div>
+    </div>
+
+    <div class="container success" id="successContent">
+        <div class="celebration">💝</div>
+        <h2>Yaaay! You said YES! 🎉</h2>
+        <div style="font-size: 80px; margin: 20px 0;">😻💕</div>
+        <p style="font-size: 1.3em; color: #ff1493; margin-bottom: 20px;">
+            By clicking "Yes", Neha, you have officially agreed to be bound with me for eternity and all future lives!
+            💍✨
+            <br><br>
+            There is no escape now! You are stuck with me forever and ever! 😈💖
+        </p>
+
+        <button class="next-btn" onclick="showTimer()">View The Binding Contract 📜</button>
+    </div>
+
+    <!-- Removed 7 Days Section as requested -->
+
+    <div class="container success" id="timerContent">
+        <div class="timer-section" style="border: 2px solid #ff69b4; background: white;">
+            <div class="timer-title" style="font-size: 1.5em;">⏳ Time We Will Be Soulmates ⏳</div>
+            <div class="timer-display" id="loveTimer" style="font-size: 2em; margin: 15px 0;">00:00:00</div>
+
+            <p style="color: #ff1493; font-size: 1.1em; margin-top: 20px; font-style: italic;">
+                "In every lifetime, I will find you and I will choose you." ❤️
+            </p>
+
+            <img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" alt="Eternal Love"
+                style="width: 100%; max-width: 300px; border-radius: 15px; margin: 20px 0;">
+
+            <p
+                style="color: #ff1493; font-size: 1.3em; font-weight: bold; margin-top: 20px; line-height: 1.5; border-top: 2px dashed #ff69b4; padding-top: 20px;">
+                This is not just a declaration of love, it's a vow I have taken. ♾️💍
+            </p>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <button class="next-btn" onclick="showFinalMessage()">One Last Thing... 🥺👉👈</button>
+        </div>
+    </div>
+
+    <div class="container success" id="finalMessageContent" style="display: none;">
+        <div style="padding: 20px; background: #fff0f5; border-radius: 15px; border: 2px solid #ff69b4;">
+            <h2 style="font-size: 1.8em; margin-bottom: 20px; color: #ff1493;">💌 From My Heart 💌</h2>
+
+            <p style="color: #666; font-size: 1.1em; line-height: 1.6; font-style: italic;">
+                I know I make mistakes, Neha, and sometimes I hurt you unknowingly. For every tear I've caused, I am
+                truly
+                sorry. 😔
+                <br><br>
+                Please forgive my imperfections, for my heart beats only for you.
+            </p>
+
+            <div
+                style="font-size: 2.5em; color: #ff1493; font-weight: bold; margin-top: 30px; animation: pulse 2s infinite;">
+                I LOVE YOU, NEHA! ❤️
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💖';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 3 + 's';
+            document.body.appendChild(heart);
+        }
+
+        for (let i = 0; i < 20; i++) {
+            createHeart();
+        }
+
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const warningText = document.getElementById('warningText');
+        const mainContent = document.getElementById('mainContent');
+        const successContent = document.getElementById('successContent');
+        // const daysContent = document.getElementById('daysContent'); // Removed
+        const timerContent = document.getElementById('timerContent');
+
+        let noClickCount = 0;
+        const warnings = [
+            "Wait... are you sure? 🥺",
+            "The cat is getting sad... 😿",
+            "Please reconsider! 😢",
+            "You're breaking my heart! 💔",
+            "The cat is crying now! 😭",
+            "I'm not giving up! 🙈",
+            "Pretty please? 🥺👉👈",
+            "Just click YES already! 😤"
+        ];
+
+        // Cat interaction
+        const catMessages = [
+            "Meow! I support this love! 😻",
+            "Purrrfect choice you're about to make! 😸",
+            "I've been team YES from the start! 🐱💕",
+            "The cat council approves! 😺",
+            "Meow means YES in cat language! 🐾"
+        ];
+        let catMessageIndex = 0;
+
+        function catSpeak() {
+            const catMsg = document.getElementById('catMessage');
+            const catEmoji = document.getElementById('catEmoji');
+            catMsg.textContent = catMessages[catMessageIndex];
+            catMsg.style.display = 'block';
+            catEmoji.style.transform = 'scale(1.2)';
+
+            setTimeout(() => {
+                catEmoji.style.transform = 'scale(1)';
+            }, 300);
+
+            catMessageIndex = (catMessageIndex + 1) % catMessages.length;
+
+            setTimeout(() => {
+                catMsg.style.display = 'none';
+            }, 3000);
+        }
+
+        // Envelope shake
+        function envelopeShake() {
+            const envelope = document.querySelector('.envelope');
+            envelope.style.animation = 'none';
+            setTimeout(() => {
+                envelope.style.animation = 'shake 0.5s 3';
+            }, 10);
+        }
+
+        // Make Yes button grow on hover
+        let yesSize = 1;
+        yesBtn.addEventListener('mouseenter', () => {
+            if (noClickCount > 3) {
+                yesSize += 0.1;
+                yesBtn.style.transform = `scale(${yesSize})`;
+            }
+        });
+
+        // Yes button click - show success
+        yesBtn.addEventListener('click', () => {
+            mainContent.style.display = 'none';
+            successContent.style.display = 'block';
+
+            // Create confetti effect - INTENSE VERSION
+            const flowers = ['🌹', '🌷', '💐', '🌸', '🌺', '🌻'];
+            const hearts = ['💖', '💕', '💗', '💓', '💝', '💘', '❤️', '🧡', '💛', '💚', '💙', '💜'];
+
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    const isFlower = Math.random() > 0.5;
+                    confetti.innerHTML = isFlower ?
+                        flowers[Math.floor(Math.random() * flowers.length)] :
+                        hearts[Math.floor(Math.random() * hearts.length)];
+
+                    confetti.style.position = 'fixed';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-50px';
+                    confetti.style.fontSize = (Math.random() * 20 + 20) + 'px'; // Random size 20-40px
+                    confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
+                    confetti.style.pointerEvents = 'none';
+                    confetti.style.zIndex = '1000';
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 50);
+            }
+        });
+
+        // No button behavior - move away and show warnings
+        const isMobile = window.innerWidth <= 600;
+
+        function moveNoBtn() {
+            // For desktop, we want big random moves
+            // For mobile, we need to keep it somewhat reachable but still tricky, or just move it a bit
+            const maxX = isMobile ? 100 : 300;
+            const maxY = isMobile ? 100 : 150;
+
+            const randomX = (Math.random() - 0.5) * maxX * 2;
+            const randomY = (Math.random() - 0.5) * maxY * 2;
+
+            // Limit to viewport to prevent scrollbar issues
+            noBtn.style.position = 'absolute';
+            noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        noBtn.addEventListener('mouseenter', () => {
+            if (!isMobile) moveNoBtn();
+        });
+
+        // For mobile, move on touch start
+        noBtn.addEventListener('touchstart', (e) => {
+            if (noClickCount < 5) { // Allow clicking after some tries on mobile to avoid total frustration
+                e.preventDefault(); // Stop click
+                moveNoBtn();
+                showMeme();
+            }
+        });
+
+        const memes = [
+            { text: "Really? 😿", emoji: "😿" },
+            { text: "Think again! 😠", emoji: "😠" },
+            { text: "Don't break my heart! 💔", emoji: "💔" },
+            { text: "I'll cry! 😭", emoji: "😭" },
+            { text: "Wrong button! 🚫", emoji: "🚫" }
+        ];
+
+        function showMeme() {
+            noClickCount++;
+
+            const memeContainer = document.getElementById('memeContainer');
+            const randomMeme = memes[Math.floor(Math.random() * memes.length)];
+
+            memeContainer.innerHTML = `
+                <div class="sticker">${randomMeme.emoji}</div>
+                <div class="meme-text">${randomMeme.text}</div>
+            `;
+            memeContainer.style.display = 'block';
+
+            setTimeout(() => {
+                memeContainer.style.display = 'none';
+            }, 1000);
+
+            handleNoClickEffects();
+        }
+
+        function handleNoClickEffects() {
+            noBtn.classList.add('warning');
+            setTimeout(() => noBtn.classList.remove('warning'), 500);
+
+            if (noClickCount <= warnings.length) {
+                warningText.textContent = warnings[noClickCount - 1];
+                warningText.style.display = 'block';
+            }
+
+            if (noClickCount > 2) {
+                noBtn.style.fontSize = '0.9em';
+                yesBtn.style.transform = `scale(${1 + (noClickCount * 0.1)})`;
+            }
+
+            if (noClickCount > 7) {
+                noBtn.style.display = 'none';
+                warningText.textContent = "Fine! The No button ran away! Only YES remains! 😏💕";
+            }
+        }
+
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showMeme();
+        });
+
+        // Show timer section with simple cute timer
+        function showTimer() {
+            successContent.style.display = 'none';
+            // daysContent.style.display = 'none'; // Removed
+            timerContent.style.display = 'block';
+            window.scrollTo(0, 0);
+            startInfiniteLoveTimer();
+        }
+
+        function showFinalMessage() {
+            timerContent.style.display = 'none';
+            document.getElementById('finalMessageContent').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        // Infinite Love Timer
+        function startInfiniteLoveTimer() {
+            let seconds = 0;
+            const timerDisplay = document.getElementById('loveTimer');
+            // Simplified timer logic
+
+            const startDate = new Date();
+            // startDate.setHours(startDate.getHours() - 1000); // Removed offset for fresh start
+
+            setInterval(() => {
+                const now = new Date();
+                const diff = now - startDate;
+
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+                // Add random huge number to hours to simulate "eternity" or "past lives"
+                timerDisplay.textContent =
+                    "∞ " +
+                    String(hours).padStart(2, '0') + ':' +
+                    String(minutes).padStart(2, '0') + ':' +
+                    String(secs).padStart(2, '0');
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>
